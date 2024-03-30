@@ -1,14 +1,15 @@
 
 # 🍽️ Restaurant API 🌟
-Web API for restaurant order management. This API provides functionalities for user creation, authentication, order creation and order history retrieval that can be downloaded or sent by email in pdf format .
-A dump of the db is available int the main folder of this repository, the chosen db is SQLServer.
+Web API for restaurant order management. This API provides functionalities for user creation, authentication, order creation, and order history retrieval that can be downloaded or sent by email in pdf format.
+A dump of the db is available inside the main folder of this repository, the chosen db is SQLServer.
 ## 💡 Usage 
- Every end point can be tested through swagger at the url: https://localhost:7067/swagger/index.html or though a simple web UI at the url http://localhost:3000/
+ Every endpoint can be tested through swagger at the URL: https://localhost:7067/swagger/index.html or through a simple web UI at the URL http://localhost:3000/
+ 
  To use the UI you need nodeJS installed in your machine
 ## 🚀 Features
 
 ### 1.a Customer User Creation with email and password
-- This API allows the creation of a new customer user..
+- This API allows the creation of a new customer user.
 - Users can be registered by providing the following information:
   - Email 📧
   - First Name 📛
@@ -17,7 +18,7 @@ A dump of the db is available int the main folder of this repository, the chosen
 - The user's role will automatically be set as "Customer".
 
 ### 1.b Customer User Creation with Google API
-- This API allows the creation of a new customer user..
+- This API allows the creation of a new customer user.
 - Users can be registered by providing the following information:
   - Email 📧
   - First Name 📛
@@ -28,7 +29,7 @@ A dump of the db is available int the main folder of this repository, the chosen
 ### 2. Authentication
 - Provides an endpoint for user authentication.
 - Authentication via email and password.
-- Authentication via oAuth 2.0 through Google API .
+- Authentication via oAuth 2.0 through Google API.
 
 ### 3. Order Creation
 - Allows authenticated users to place a new order.
