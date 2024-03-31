@@ -15,6 +15,6 @@ namespace Models.Entities
         public String Email { get; set; }
         public String Password { get; set; }
 
-        public String Ruolo { get; set; } = "Cliente";
+        public String Role { get; set; } = "Cliente";
     }
 }

@@ -21,28 +21,6 @@ namespace Infrastructure.Repositories
             return context.Set<T>().Find(id);
         }
 
-        public IEnumerable<T> GetAllWithPagination<T>(int start, int num,Type type,
-                                                    string attribute, out int totalNumber)
-        {
-            var entityType = typeof(T);
-            var property = entityType.GetProperty(attribute);
-            if (property == null)
-            {
-                throw new ArgumentException($"The property '{attribute}' doesn't exist in th entity '{entityType.Name}'.");
-            }
-            var query = context.GetType().GetProperty(entityType.Name + "s")
-                .GetValue(context) as List<T>;
-            if (query == null)
-            {
-                throw new InvalidOperationException($"Entity not found in the context!");
-            }
-            var orderedQuery = query.OrderBy(item => property.GetValue(item)).ToList();
-            totalNumber = orderedQuery.Count;
-            return orderedQuery
-                .Skip(start)
-                .Take(num)
-                .ToList();
-        }
         public void Add(T entity)
         {
             context.Set<T>().Add(entity);
