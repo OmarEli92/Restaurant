@@ -8,15 +8,13 @@ namespace Models.Entities
 {
     public  class User
     {
-        private int UserId {  get; set; }
-        private String FirstName {  get; set; }
-        private String LastName{ get; set; }
-        
-        private String Email { get; set; }
-        private String Password { get; set; }
+        public int UserId {  get; set; }
+        public String FirstName {  get; set; }
+        public String LastName{ get; set; }
 
-        
-        
-        
+        public String Email { get; set; }
+        public String Password { get; set; }
+
+        public String Ruolo { get; set; } = "Cliente";
     }
 }

@@ -9,11 +9,11 @@ namespace Models.Entities
     /**This class represents an order made by a customer **/
     public class Order
     {
-        private User OrderedByUser { get; set; }
-        private DateTime OrderDate { get; set; }
-        private int OrderNumber { get; set; }
-        private String DeliveryAddress {  get; set; }
+        public User OrderedByUser { get; set; }
+        public DateTime OrderDate { get; set; }
+        public int OrderNumber { get; set; }
+        public String DeliveryAddress {  get; set; }
 
-        private List<Dish> OrderedDishes { get; set; } = new List<Dish>();
+        public List<Dish> OrderedDishes { get; set; } = new List<Dish>();
     }
 }

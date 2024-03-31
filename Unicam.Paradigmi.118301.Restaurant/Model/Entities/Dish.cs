@@ -10,9 +10,10 @@ namespace Models.Entities
     /** This class represents a dish that can be ordered by a customer**/
     public class Dish
     {
-        private string name {  get; set; }
-        private string description { get; set; }
-        private string price { get; set; }
-        private MenuCourses type { get; set; }
+        public int DishId { get; set; }
+        public string Name {  get; set; }
+        public string Description { get; set; }
+        public string Price { get; set; }
+        public MenuCourses Type { get; set; }
     }
 }
