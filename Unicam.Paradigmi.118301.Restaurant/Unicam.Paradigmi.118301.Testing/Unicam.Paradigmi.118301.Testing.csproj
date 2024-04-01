@@ -1,7 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Unicam.Paradigmi._118301.Testing</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -13,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Model\Models.csproj" />
+    <ProjectReference Include="..\Infrastructure\Unicam.Paradigmi.118301.Infrastructure.csproj" />
+    <ProjectReference Include="..\Model\Unicam.Paradigmi.118301.Models.csproj" />
   </ItemGroup>
 
 </Project>

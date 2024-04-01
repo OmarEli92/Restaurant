@@ -18,6 +18,13 @@ namespace Infrastructure.Extensions
         {
             services.AddDbContext<MyDBContext>(conf => conf.UseSqlServer(
                                                 configuration.GetConnectionString("MyDBContext")));
+
+            /*
+            services.AddDbContext<MyDBContext>((serviceProvider, options) =>
+            {
+                options.UseInternalServiceProvider(serviceProvider);
+            });
+            */
             services.AddScoped<DishRepository>();
             services.AddScoped<OrderRepository>();
             services.AddScoped<UserRepository>();

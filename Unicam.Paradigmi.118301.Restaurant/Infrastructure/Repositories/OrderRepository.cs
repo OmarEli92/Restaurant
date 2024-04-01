@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Repositories
 {
@@ -22,18 +23,23 @@ namespace Infrastructure.Repositories
         /// <param name="start">Start of the result.</param>
         /// <param name="nOfRecords">Number of records to take</param>
         /// <param name="totalNumberOfOrders">Number of records present in the db</param>
-        public List<Order> GetOrders(int start, int nOfRecords,string? attribute, out int totalNumberOfOrders)
+        public List<Order> GetOrders(int start, int nOfRecords,string? attribute,
+                                    User? user, out int totalNumberOfOrders)
         {
+
             if (string.IsNullOrEmpty(attribute)){
-                attribute = "OrderDate";
-;            }
-           var query = context.Orders.OrderBy(u => u.GetType().GetProperty(attribute));
-           totalNumberOfOrders = query.Count();
-           return query.Skip(start)
-                    .Take(nOfRecords)
-                    .ToList();
-           
-        
+                attribute = "OrderDate";   
+            }
+            var query = context.Orders.OrderBy(u => u.GetType().GetProperty(attribute));
+            if (user != null)
+            {
+                query.Where(o => o.OrderedByUser == user);
+            }
+            totalNumberOfOrders = query.Count();
+            return query.Skip(start)
+                          .Take(nOfRecords)
+                          .ToList();
+
         }
 
 
@@ -47,27 +53,43 @@ namespace Infrastructure.Repositories
             totalCheck = order.OrderedDishes.Sum(d => d.Price);
             context.Orders.Add(order);
             context.SaveChanges();
-            return order.OrderNumber;
+            return order.OrderID;
         }
 
-        /** Get a User based on its id**/
-        public async Task<User> GetUserAsync(int id)
+        /** Get a order based on its id**/
+        public async Task<Order> GetOrderAsync(int id)
         {
-            return await context.Users
-                .Where(u => u.UserId == id)
-                .FirstAsync();
-
-        }
-
-
-        /** Get a User based on its email**/
-        public async Task<User> GetUserByEmailAsync(string email)
-        {
-            return await context.Users
-                .Where(u => u.Email == email)
+            return await context.Orders
+                .Where(o => o.OrderID == id)
                 .FirstAsync();
         }
 
+        //TODO da testare se va bene generico altrimenti lasciare questo metodo 
+        /** Get a prder based on its email**/
+        /*
+        public List<Order> GetOrdersFromUser(User user,int start, int nOfRecords, out int totalNumberOfOrders )
+        {
+            var query = context.Orders
+                        .Where(o => o.OrderedByUser == user);
+            totalNumberOfOrders = query.Count();
+            return query.Skip(start)
+                .Take(nOfRecords)
+                .ToList();
+        }
+        */
 
+        public async Task RemoveOrderAsync(Order order)
+        {
+            Delete(order);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderAsync(Order order)
+        {
+            Update(order);
+            await context.SaveChangesAsync();
+            
+        }
     }
+
 }

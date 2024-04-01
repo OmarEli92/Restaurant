@@ -14,9 +14,11 @@ namespace Infrastructure.Configuration
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.ToTable("Orders");
-            builder.HasKey(o => o.OrderNumber);
+            builder.HasKey(o => o.OrderID);
             builder.Property(o => o.DeliveryAddress)
                 .HasMaxLength(60);
+            builder.Property(o => o.TotalCheck)
+                .HasPrecision(18, 2);
                
         }
     }

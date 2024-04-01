@@ -17,6 +17,9 @@ namespace Infrastructure.Configuration
             builder.HasKey(d => d.DishId);
             builder.Property(d => d.Description)
                 .HasMaxLength(200);
+            builder.Property(d => d.Price)
+                .HasPrecision(18, 2);
+                
         }
     }
 }

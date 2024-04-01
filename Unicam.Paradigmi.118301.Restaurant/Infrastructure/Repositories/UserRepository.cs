@@ -5,6 +5,7 @@ using Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,7 +45,24 @@ namespace Infrastructure.Repositories
                 .FirstAsync();
         }
 
+        public async Task<User> AddUserAsync(User user)
+        {
+            await context.AddAsync(user);
+            await context.SaveChangesAsync();
+            return user;
+        }
      
+        public async Task RemoveUserAsync(User user)
+        {
+            var userEntry = context.Entry(user);
+            Delete(user);
+            await context.SaveChangesAsync();
+        }
 
+        public async Task UpdateUserAsync(User user)
+        {
+            Update(user);
+            await context.SaveChangesAsync();
+        }
     }
 }

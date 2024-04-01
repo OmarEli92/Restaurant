@@ -9,11 +9,13 @@ namespace Models.Entities
     /**This class represents an order made by a customer **/
     public class Order
     {
+        public int OrderID { get; set; }
         public User OrderedByUser { get; set; }
         public DateTime OrderDate { get; set; }
-        public int OrderNumber { get; set; }
+        
         public String DeliveryAddress {  get; set; }
 
         public List<Dish> OrderedDishes { get; set; } = new List<Dish>();
+        public decimal TotalCheck {  get; set; }
     }
 }
