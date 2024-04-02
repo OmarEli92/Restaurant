@@ -1,6 +1,9 @@
 ﻿using Application.Abstractions.Services;
+using Application.Models.Requests.Dishes;
+using Application.Models.Responses.Dishes;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
+using Models.Responses;
 
 namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 {
@@ -26,9 +29,20 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> AddDish(Dish dish) {
+        public async Task<IActionResult> AddDish(CreateDishRequest request) {
+            var dish = request.MapToEntity();
             await dishService.AddDishAsync(dish);
-            return Ok("Dish added correctly");
+            var response = new CreateDishResponse();
+            response.Dish = new Application.Models.DTO.DishDTO(dish);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("remove")]
+        public async Task<IActionResult> RemovoveDishByIdFromMenu(int dishID)
+        {
+            await dishService.RemoveDishByIdAsync(dishID);
+            return Ok("Dish removed!");
         }
     }
 }

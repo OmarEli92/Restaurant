@@ -30,9 +30,9 @@ namespace Application.Services
             return dishRepository.GetDishes(start, num,attribute, out totalNumberOfDishes); 
         }
 
-        public async Task RemoveDishAsync(Dish dish)
+        public async Task RemoveDishByIdAsync(int dishID)
         {
-            await dishRepository.DeleteDishAsync(dish);
+            await dishRepository.DeleteDishByIdAsync(dishID);
         }
 
         public async Task UpdateDishAsync(Dish dish)

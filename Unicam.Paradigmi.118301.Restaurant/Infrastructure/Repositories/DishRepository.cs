@@ -53,8 +53,9 @@ namespace Infrastructure.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteDishAsync(Dish dish)
+        public async Task DeleteDishByIdAsync(int dishID)
         {
+            var dish = context.Dishes.FindAsync(dishID);
             context.Remove(dish);
             await context.SaveChangesAsync() ;
         }

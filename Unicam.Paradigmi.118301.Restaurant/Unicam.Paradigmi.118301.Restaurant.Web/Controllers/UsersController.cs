@@ -1,7 +1,8 @@
 ﻿using Application.Abstractions.Services;
-using Infrastructure.Repositories;
+using Application.Models.Requests.Users;
 using Microsoft.AspNetCore.Mvc;
-using Models.Entities;
+using Model.Responses.Users;
+using Models.Responses.Users;
 
 namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 {
@@ -20,19 +21,25 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
         
         [HttpPost]
         [Route("all")]
-        public IEnumerable<User> GetUsers(int start,int num)
+        public IActionResult GetUsers(GetUsersRequest request)
         {
             int totalNumber = 0;
-            return userService.GetUsers(start, num, out totalNumber);
+            var users = userService.GetUsers(request.StartingIndex * request.PageSize, request.PageSize, out totalNumber);
+            decimal pages = (totalNumber / (decimal) request.PageSize);
+            var response = new GetUsersResponse();
+            response.Users = users.Select(u => new Application.Models.DTO.UserDTO(u)).ToList();
+            response.NumberOfPages = (int)Math.Ceiling(pages);
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddUser(User user) {
-
-               await userService.AddUserAsync(user);
-            return Ok($"User {user.Email} added");
-            
+        public async Task<IActionResult> AddUser(CreateUserRequest request) {
+            var user = request.MaptoEntity();
+            await userService.AddUserAsync(user);
+            var response = new CreateUserResponse();
+            response.User = new Application.Models.DTO.UserDTO(user);
+            return Ok(response);
         }
     }
 }

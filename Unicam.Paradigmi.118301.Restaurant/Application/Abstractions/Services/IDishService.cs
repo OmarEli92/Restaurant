@@ -14,7 +14,7 @@ namespace Application.Abstractions.Services
 
         Task AddDishAsync(Dish dish);
 
-        Task RemoveDishAsync(Dish dish);
+        Task RemoveDishByIdAsync(int dishId);
 
         Task UpdateDishAsync(Dish dish);
 
