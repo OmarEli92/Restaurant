@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions.Services;
+using Application.Factories;
+using Application.Models.Requests;
 using Application.Models.Requests.Users;
 using Microsoft.AspNetCore.Mvc;
 using Model.Responses.Users;
@@ -21,15 +23,17 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
         
         [HttpPost]
         [Route("all")]
-        public IActionResult GetUsers(GetUsersRequest request)
+        public IActionResult GetUsers(BaseGetAllRequest request)
         {
             int totalNumber = 0;
-            var users = userService.GetUsers(request.StartingIndex * request.PageSize, request.PageSize, out totalNumber);
-            decimal pages = (totalNumber / (decimal) request.PageSize);
+            var users = userService.GetUsers(request.PageNumber * request.PageSize, request.PageSize, out totalNumber);
+            var pages = (totalNumber / (decimal) request.PageSize);
             var response = new GetUsersResponse();
             response.Users = users.Select(u => new Application.Models.DTO.UserDTO(u)).ToList();
             response.NumberOfPages = (int)Math.Ceiling(pages);
-            return Ok(response);
+           
+            return Ok(ResponseFactory.WithSuccess(response));
+ 
         }
 
         [HttpPost]
@@ -39,7 +43,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
             await userService.AddUserAsync(user);
             var response = new CreateUserResponse();
             response.User = new Application.Models.DTO.UserDTO(user);
-            return Ok(response);
+            return Ok(ResponseFactory.WithSuccess(response.User));
         }
     }
 }

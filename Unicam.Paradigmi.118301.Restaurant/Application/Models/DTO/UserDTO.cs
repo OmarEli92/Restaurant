@@ -20,7 +20,11 @@ namespace Application.Models.DTO
 
         public UserDTO(User user)
         {
-
+            this.Id = user.UserId;
+            this.FirstName = user.FirstName;
+            this.LastName = user.LastName;
+            this.Email = user.Email;
+            this.Role = user.Role;
         }
 }
 }

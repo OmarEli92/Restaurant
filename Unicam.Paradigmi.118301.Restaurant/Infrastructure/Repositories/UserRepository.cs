@@ -24,7 +24,9 @@ namespace Infrastructure.Repositories
                 .OrderBy(u => u.Email)
                 .ToList();
             totalNumberOfUsers = query.Count();
-            return query;
+            return query.Skip(start)
+                .Take(num)
+                .ToList();
         }
 
         /** Get a User based on its id**/

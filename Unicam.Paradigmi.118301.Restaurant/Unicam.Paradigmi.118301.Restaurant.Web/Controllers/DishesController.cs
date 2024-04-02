@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Services;
+using Application.Factories;
 using Application.Models.Requests.Dishes;
 using Application.Models.Responses.Dishes;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
             await dishService.AddDishAsync(dish);
             var response = new CreateDishResponse();
             response.Dish = new Application.Models.DTO.DishDTO(dish);
-            return Ok(response);
+            return Ok(ResponseFactory.WithSuccess(response));
         }
 
         [HttpPost]
@@ -43,6 +44,14 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
         {
             await dishService.RemoveDishByIdAsync(dishID);
             return Ok("Dish removed!");
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<IActionResult> UpdateDish(Dish dish)
+        {
+            await dishService.UpdateDishAsync(dish);
+            return Ok("Dish updated");
         }
     }
 }

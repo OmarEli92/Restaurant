@@ -62,7 +62,8 @@ namespace Infrastructure.Repositories
 
         public async Task UpdateDishAsync(Dish dish)
         {
-            context.Update(dish);
+            
+            context.Entry(dish).State = EntityState.Modified;
             await context.SaveChangesAsync() ;
         }
 
