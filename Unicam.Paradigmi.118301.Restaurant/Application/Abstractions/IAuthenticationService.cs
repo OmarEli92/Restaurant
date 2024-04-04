@@ -11,9 +11,9 @@ namespace Application.Abstractions
     public interface IAuthenticationService
 {
         bool VerifyCredentials(string email, string password, out User user);
-        string Login(string username, string password);
+        string Login(string email, string password);
 
-        string Registration(User user);
+        Task<string> Registration(User user);
         
 }
 }

@@ -9,7 +9,7 @@ namespace Application.Models.Requests
 {
     public class CreateTokenRequest    
 {
-        public User user { get; set; }
+        public User User { get; set; }
         
 }
 }

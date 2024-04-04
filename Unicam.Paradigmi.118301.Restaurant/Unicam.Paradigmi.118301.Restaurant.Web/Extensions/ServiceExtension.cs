@@ -1,5 +1,8 @@
 ﻿using Abstractions.Services;
+using Application.Options;
 using Application.Services;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using UApplication.Options;
 
@@ -37,6 +40,34 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
         }
     });
             });
+            services.AddFluentValidationAutoValidation();
+
+            var jwtAuthenticationOption = new JwtAuthenticationOptioons();
+            configuration.GetSection("JwtAuthentication")
+                .Bind(jwtAuthenticationOption);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    string key = jwtAuthenticationOption.Key;
+                    var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                        System.Text.Encoding.UTF8.GetBytes(key)
+                        );
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtAuthenticationOption.Issuer,
+                        IssuerSigningKey = securityKey
+                    };
+                });
             return services;
         }
 

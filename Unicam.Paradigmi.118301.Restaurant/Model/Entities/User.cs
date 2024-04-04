@@ -16,7 +16,7 @@ namespace Models.Entities
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public string Role { get; set; } = "Cliente";
+        public string Role { get; set; } = "Customer";
         public string Salt { get; set; } = Convert.ToHexString(RandomNumberGenerator.GetBytes(6));
     }
 }

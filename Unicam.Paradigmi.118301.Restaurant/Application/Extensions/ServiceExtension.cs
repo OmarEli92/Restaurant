@@ -1,4 +1,5 @@
 ﻿using Abstractions.Services;
+using Application.Abstractions;
 using Application.Abstractions.Services;
 using Application.Services;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ namespace Application.Extensions
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IHashingService, HashingService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             return services;
         }
 
