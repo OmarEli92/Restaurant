@@ -18,7 +18,7 @@ namespace Application.Models.DTO
             Name = dish.Name;
             Description = dish.Description;
             Price = dish.Price;
-            Type = dish.Type;
+           Type = dish.Type;
         }
 }
 }

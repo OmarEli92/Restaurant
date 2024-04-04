@@ -48,12 +48,12 @@ namespace Infrastructure.Repositories
         /// </summary>
         /// <param name="order">The order to add.</param>
         /// <param name="totalCheck">the total check to pay.</param>
-        public int AddOrder(Order order, out decimal totalCheck)
+        public  int AddOrder(Order order, out decimal totalCheck)
         {
-            totalCheck = order.OrderedDishes.Sum(d => d.Price);
+            totalCheck = order.TotalCheck;
             context.Orders.Add(order);
             context.SaveChanges();
-            return order.OrderID;
+            return  order.OrderID;
         }
 
         /** Get a order based on its id**/

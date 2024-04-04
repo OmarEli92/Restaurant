@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20240401161233_Initia")]
-    partial class Initia
+    [Migration("20240404115437_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,6 +109,10 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Salt")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

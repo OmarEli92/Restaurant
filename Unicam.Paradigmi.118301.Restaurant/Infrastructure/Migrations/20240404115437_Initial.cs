@@ -19,7 +19,8 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,7 +35,8 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderedByUserUserId = table.Column<int>(type: "int", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalCheck = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {

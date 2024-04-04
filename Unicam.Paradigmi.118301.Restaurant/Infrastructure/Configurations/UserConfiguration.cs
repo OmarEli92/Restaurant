@@ -16,7 +16,20 @@ namespace Infrastructure.Configuration
             builder.ToTable("Users");
             builder.HasKey("UserId");
             builder.Property(u => u.Email)
+                .IsRequired()
                 .HasMaxLength(50);
+            builder.Property(u => u.FirstName)
+                .IsRequired()
+                .HasMaxLength(30);
+            builder.Property(u => u.LastName)
+                .IsRequired()
+                .HasMaxLength(30);
+            builder.Property(u => u.Role)
+                .IsRequired()
+                .HasMaxLength(20);
+            builder.Property(u => u.Salt)
+                .IsRequired()
+                .HasMaxLength(20);
         }
     }
 }

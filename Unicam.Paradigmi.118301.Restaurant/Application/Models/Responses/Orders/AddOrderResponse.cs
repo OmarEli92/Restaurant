@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Responses.Orders
 {
-    public class CreateOrderResponse
+    public class AddOrderResponse
     {
         public OrderDTO Order { get; set; } = null!;
     }

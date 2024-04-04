@@ -8,9 +8,9 @@ namespace Models.Enums
 {
     public enum MenuCourses
     {
-        Starter,
-        MainCourse,
-        SideDish,
-        Dessert
+        Starter = 0,
+        MainCourse = 1,
+        SideDish = 2,
+        Dessert = 3
     }
 }

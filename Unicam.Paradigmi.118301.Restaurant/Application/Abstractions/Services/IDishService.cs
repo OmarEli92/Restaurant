@@ -17,8 +17,9 @@ namespace Application.Abstractions.Services
         Task RemoveDishByIdAsync(int dishId);
 
         Task UpdateDishAsync(Dish dish);
+        Dish GetDishByName(string name);
 
-        
+
 
     }
 }

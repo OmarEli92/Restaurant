@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,12 +10,13 @@ namespace Models.Entities
     public  class User
     {
         public int UserId {  get; set; }
-        public String FirstName {  get; set; }
-        public String LastName{ get; set; }
+        public string FirstName {  get; set; }
+        public string LastName { get; set; }
 
-        public String Email { get; set; }
-        public String Password { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
-        public String Role { get; set; } = "Cliente";
+        public string Role { get; set; } = "Cliente";
+        public string Salt { get; set; } = Convert.ToHexString(RandomNumberGenerator.GetBytes(6));
     }
 }

@@ -13,7 +13,7 @@ namespace Models.Entities
         public User OrderedByUser { get; set; }
         public DateTime OrderDate { get; set; }
         
-        public String DeliveryAddress {  get; set; }
+        public string DeliveryAddress {  get; set; }
 
         public List<Dish> OrderedDishes { get; set; } = new List<Dish>();
         public decimal TotalCheck {  get; set; }

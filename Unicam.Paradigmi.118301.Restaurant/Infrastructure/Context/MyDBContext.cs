@@ -20,9 +20,9 @@ namespace Infrastructure.Context
 
         }
         // SET THE ENTITIES PRESENT IN THE MODEL
-        public DbSet<Dish> Dishes { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Dish>? Dishes { get; set; } = default;
+        public virtual DbSet<User>? Users { get; set; }= default;
+        public virtual DbSet<Order>? Orders { get; set; } = default;
 
 
     }

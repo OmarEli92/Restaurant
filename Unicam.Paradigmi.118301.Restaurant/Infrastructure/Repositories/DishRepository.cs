@@ -74,6 +74,12 @@ namespace Infrastructure.Repositories
                 .FirstAsync();
         }
 
+        public Dish GetDishByName(string name)
+        {
+            return  context.Dishes
+                .Where(d => d.Name.Equals(name))
+                .First();
+                }
        
     }
 }

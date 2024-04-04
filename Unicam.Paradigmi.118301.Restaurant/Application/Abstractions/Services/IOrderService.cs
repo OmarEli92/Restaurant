@@ -14,12 +14,12 @@ namespace Application.Abstractions.Services
         Task<Order> GetOrderAsync(int id);
         List<Order> GetOrdersByUser(int start, string? attribute, User? user, int num, out int totalNumberOfOrders);
 
-        int AddOrderAsync(Order order, out decimal totalCheck);
+        int AddOrder(Order order, out decimal totalCheck);
 
         Task RemoveOrderAsync(Order order);
 
         Task UpdateOrderAsync(Order order);
 
-
+        Order GenerateOrder(List<String> dishesOrdered);
     }
 }

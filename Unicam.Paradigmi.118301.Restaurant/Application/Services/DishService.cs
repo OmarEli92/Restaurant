@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Services;
+using Application.Models.DTO;
 using Infrastructure.Repositories;
 using Models.Entities;
 
@@ -25,6 +26,10 @@ namespace Application.Services
             return await dishRepository.GetDishAsync(id);
         }
 
+        public  Dish GetDishByName(string name)
+        {
+            return  dishRepository.GetDishByName(name);
+        }
         public  IEnumerable<Dish> GetDishes(int start, int num,string? attribute, out int totalNumberOfDishes)
         {
             return dishRepository.GetDishes(start, num,attribute, out totalNumberOfDishes); 
@@ -40,6 +45,7 @@ namespace Application.Services
             await dishRepository.UpdateDishAsync(dish);
         }
 
-
+        
+       
     }
 }
