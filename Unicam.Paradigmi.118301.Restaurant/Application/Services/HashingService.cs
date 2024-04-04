@@ -1,4 +1,5 @@
 ﻿using Abstractions.Services;
+using Application.Abstractions.Services;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Application.Services
             this.options = options;
         }
 
-        //Generate a hashed version of the password using the unique salt for each user
+        //Generate a hashed version of the password using the unique salt for each user//
         public string HashPassword(string password, string salt)
         {
             var hash = Rfc2898DeriveBytes.Pbkdf2(
@@ -28,6 +29,12 @@ namespace Application.Services
                 options.HashAlgorithm,
                 options.KeySize);
             return Convert.ToHexString(hash);
+        }
+        
+        public bool VerifyPassword(string enteredPassword,string salt, string password)
+        {
+          
+            return false;
         }
     }
 }

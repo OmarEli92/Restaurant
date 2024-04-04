@@ -40,12 +40,19 @@ namespace Infrastructure.Repositories
 
 
         /** Get a User based on its email**/
+        public User GetUserByEmail(string email)
+        {
+            return context.Users
+                .Where(u => u.Email == email)
+                .First();
+        }
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await context.Users
                 .Where(u => u.Email == email)
                 .FirstAsync();
         }
+
 
         public async Task<User> AddUserAsync(User user)
         {

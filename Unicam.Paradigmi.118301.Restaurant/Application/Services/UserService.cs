@@ -22,10 +22,11 @@ namespace Application.Services
             this.hashingService = hashingService;
         }
 
-        /** Add a user in the db**/
+        /** Add a user in the db, but first it generates a hashed password**/
         public async Task AddUserAsync(User user)
         {
-            hashingService.HashPassword(user.Password, user.Salt);
+            var hashedPassword = hashingService.HashPassword(user.Password, user.Salt);
+            user.Password = hashedPassword;
             await userRepository.AddUserAsync(user);
         }
 
@@ -35,6 +36,10 @@ namespace Application.Services
             return await userRepository.GetUserAsync(id);
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return userRepository.GetUserByEmail(email);
+        }
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await userRepository.GetUserByEmailAsync(email);

@@ -13,7 +13,7 @@ namespace Application.Abstractions.Services
         List<User> GetUsers(int start, int num, out int totalNumberOfUsers);
         Task<User> GetUserAsync(int id);
         Task<User> GetUserByEmailAsync(string email);
-
+        User GetUserByEmail(string email);
         Task AddUserAsync(User user);
 
         Task RemoveUserAsync(User user);

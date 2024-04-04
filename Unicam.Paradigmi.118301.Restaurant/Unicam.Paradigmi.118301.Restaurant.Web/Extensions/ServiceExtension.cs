@@ -13,7 +13,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Unicam Paradigmi Test App",
+                    Title = "Restaurant API",
                     Version = "v1"
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
