@@ -75,11 +75,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
 
         public static IServiceCollection AddOption(this IServiceCollection services, IConfiguration configuration)
         {
-
-            var hashingOptions = new HashingOptions();
-            configuration.GetSection("HashingSalting").Bind(hashingOptions);
-            // services.Configure<HashingOptions>(configuration.GetSection("HashingSalting"));
-
+            services.Configure<HashingOptions>(configuration.GetSection("HashingOptions"));
             return services;
         }
     }

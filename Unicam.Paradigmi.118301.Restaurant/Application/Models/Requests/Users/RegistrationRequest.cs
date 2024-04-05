@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Requests.Users
 {
-    public class CreateUserRequest
+    public class RegistrationRequest
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

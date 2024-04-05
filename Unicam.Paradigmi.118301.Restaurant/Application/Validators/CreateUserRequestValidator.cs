@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Validators
 {
-    public class CreateUserRequestValidator: AbstractValidator<CreateUserRequest>
+    public class CreateUserRequestValidator: AbstractValidator<RegistrationRequest>
     {
         public CreateUserRequestValidator() {
             RuleFor(r => r.Email)

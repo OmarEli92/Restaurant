@@ -38,7 +38,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddUser(CreateUserRequest request) {
+        public async Task<IActionResult> AddUser(RegistrationRequest request) {
             var user = request.MaptoEntity();
             await userService.AddUserAsync(user);
             var response = new CreateUserResponse();

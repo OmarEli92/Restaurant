@@ -32,10 +32,11 @@ namespace Application.Services
             return Convert.ToHexString(hash);
         }
         
+        //Check if the entered password after being hashed is the same as the password persisted
         public bool VerifyPassword(string enteredPassword,string salt, string password)
         {
+            return HashPassword(enteredPassword, salt).Equals(password);  
           
-            return false;
         }
     }
 }
