@@ -37,13 +37,10 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
         }
 
         [HttpPost]
-        [Route("Add")]
-        public async Task<IActionResult> AddUser(RegistrationRequest request) {
-            var user = request.MaptoEntity();
-            await userService.AddUserAsync(user);
-            var response = new CreateUserResponse();
-            response.User = new Application.Models.DTO.UserDTO(user);
-            return Ok(ResponseFactory.WithSuccess(response.User));
+        [Route("Remove/{id}")]
+        public async Task<IActionResult> RemoveUser(int id) {
+            await userService.RemoveUserAsync(id);
+            return Ok(ResponseFactory.WithSuccess("User removed"));
         }
     }
 }

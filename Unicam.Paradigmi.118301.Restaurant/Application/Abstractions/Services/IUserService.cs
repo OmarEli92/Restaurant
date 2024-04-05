@@ -16,7 +16,7 @@ namespace Application.Abstractions.Services
         User GetUserByEmail(string email);
         Task AddUserAsync(User user);
 
-        Task RemoveUserAsync(User user);
+        Task RemoveUserAsync(int id);
 
         Task UpdateUserAsync(User user);
 

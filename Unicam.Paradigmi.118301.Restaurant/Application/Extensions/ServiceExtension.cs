@@ -22,8 +22,10 @@ namespace Application.Extensions
             var hashingOptions = new HashingOptions();
             services.AddTransient<HashingOptions>();
             configuration.GetSection("HashingSalting").Bind(hashingOptions);
+           
             services.AddScoped<IHashingService, HashingService>();
-            services.Configure<HashingOptions>(configuration.GetSection("HashingSalting"));
+
+            //services.Configure<HashingOptions>(configuration.GetSection("HashingSalting"));
             services.AddValidatorsFromAssembly(
             AppDomain.CurrentDomain.GetAssemblies().
             SingleOrDefault(assembly => assembly.GetName().Name == "Unicam.Paradigmi.118301.Application"));

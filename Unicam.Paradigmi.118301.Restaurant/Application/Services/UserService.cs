@@ -50,9 +50,9 @@ namespace Application.Services
             return userRepository.GetUsers(start, num, out totalNumberOfUsers);
         }
 
-        public async Task RemoveUserAsync(User user)
+        public async Task RemoveUserAsync(int id)
         {
-            await userRepository.RemoveUserAsync(user);
+            await userRepository.RemoveUserAsync(id);
         }
 
         public async Task UpdateUserAsync(User user)

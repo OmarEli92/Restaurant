@@ -61,11 +61,14 @@ namespace Infrastructure.Repositories
             return user;
         }
      
-        public async Task RemoveUserAsync(User user)
+        public async Task RemoveUserAsync(int id)
         {
-            var userEntry = context.Entry(user);
-            Delete(user);
-            await context.SaveChangesAsync();
+            var user = context.Users.Where(u => u.UserId == id).First();
+            if(user != null)
+            {
+                Delete(user);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task UpdateUserAsync(User user)
