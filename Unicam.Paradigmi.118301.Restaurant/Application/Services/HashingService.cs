@@ -22,10 +22,11 @@ namespace Application.Services
         //Generate a hashed version of the password using the unique salt for each user//
         public string HashPassword(string password, string salt)
         {
+            int iter = options.Iterations;
             var hash = Rfc2898DeriveBytes.Pbkdf2(
                 Encoding.UTF8.GetBytes(password),
                 Encoding.UTF8.GetBytes(salt),
-                options.Iterations,
+                (options.Iterations),
                 options.HashAlgorithm,
                 options.KeySize);
             return Convert.ToHexString(hash);

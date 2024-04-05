@@ -40,7 +40,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
         }
     });
             });
-            services.AddFluentValidationAutoValidation();
+            
 
             var jwtAuthenticationOption = new JwtAuthenticationOptioons();
             configuration.GetSection("JwtAuthentication")
@@ -68,12 +68,18 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
                         IssuerSigningKey = securityKey
                     };
                 });
+
+            services.AddFluentValidationAutoValidation();
             return services;
         }
 
         public static IServiceCollection AddOption(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<HashingOptions>(configuration.GetSection("HashingSalting"));
+
+            var hashingOptions = new HashingOptions();
+            configuration.GetSection("HashingSalting").Bind(hashingOptions);
+            // services.Configure<HashingOptions>(configuration.GetSection("HashingSalting"));
+
             return services;
         }
     }
