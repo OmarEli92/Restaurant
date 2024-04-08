@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using UApplication.Options;
+using Unicam.Paradigmi._118301.Restaurant.Web.Results;
 
 namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
 {
@@ -73,7 +74,15 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
             services.AddAuthorization();
             services.AddOptions(configuration);
             services.AddFluentValidationAutoValidation();
-            services.AddControllers().AddJsonOptions(x =>
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(opt =>
+                {
+                    opt.InvalidModelStateResponseFactory = (context) =>
+                    {
+                        return new BadRequestResultFactory(context);
+                    };
+                })
+                .AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             return services;
         }

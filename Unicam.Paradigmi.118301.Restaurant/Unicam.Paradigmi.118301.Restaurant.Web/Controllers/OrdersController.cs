@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Services;
 using Application.Factories;
+using Application.Models.DTO;
 using Application.Models.Requests;
 using Application.Models.Requests.Orders;
 using Application.Models.Responses.Orders;
@@ -50,10 +51,10 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
         {
             int totalNumberOfOrder = 0;
             var userIdentity = this.User.Identity as ClaimsIdentity;
-            var userRole = userIdentity.Claims.Where( u => u.Type == "Role" ).First().Value;
+            var userRole = userIdentity.Claims.Where( u => u.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").First().Value;
             var userId = int.Parse(userIdentity.Claims.Where(u => u.Type == "User_id").First().Value);
             var user = await userService.GetUserAsync(userId);
-            List<Order> history = new List<Order>();
+            List<OrderDTO> history = new List<OrderDTO>();
             switch (userRole)
             {
                 case "Customer":

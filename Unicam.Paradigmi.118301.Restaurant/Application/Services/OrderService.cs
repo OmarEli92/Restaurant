@@ -1,5 +1,7 @@
 ﻿using Application.Abstractions.Services;
+using Application.Models.DTO;
 using Application.Models.Requests.Orders;
+using Application.Models.Responses.Orders;
 using Infrastructure.Repositories;
 using Models.Entities;
 using Models.Enums;
@@ -93,10 +95,16 @@ namespace Application.Services
             return await orderRepository.GetOrderAsync(id);
         }
 
-        public List<Order> GetOrdersFromUser(int start,string? attribute,User? user,
+        public List<OrderDTO> GetOrdersFromUser(int start,string? attribute,User? user,
                                             int num, out int totalNumberOfOrders)
         {
-            return orderRepository.GetOrdersFromUser(start, num,attribute,user,out totalNumberOfOrders);
+            var orders =  orderRepository.GetOrdersFromUser(start, num,attribute,user,out totalNumberOfOrders);
+            var ordersResponse = new List<OrderDTO>();
+            foreach(Order order in orders)
+            {
+                ordersResponse.Add(new OrderDTO(order));
+            }
+            return ordersResponse;
         }
 
        

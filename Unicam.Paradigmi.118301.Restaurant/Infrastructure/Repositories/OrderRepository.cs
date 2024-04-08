@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Context;
+using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using System;
@@ -33,13 +34,16 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrEmpty(attribute)){
                 attribute = "OrderDate";   
             }
-            var query = context.Orders.OrderBy(u => u.GetType().GetProperty(attribute));
+            //var query = context.Orders.OrderByField(u => u.GetType().GetProperty(attribute));
+            var query = context.Orders.AsQueryable();
+
             if (user != null)
             {
                 query.Where(o => o.OrderedByUser == user);
             }
             totalNumberOfOrders = query.Count();
-            return query.Skip(start)
+            return query.OrderByField(attribute,true)
+                            .Skip(start)
                           .Take(nOfRecords)
                           .ToList();
 

@@ -3,6 +3,7 @@ using Application.Factories;
 using Application.Models.Requests;
 using Application.Models.Requests.Dishes;
 using Application.Models.Responses.Dishes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
 using Models.Responses;
@@ -31,6 +32,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> AddDish(CreateDishRequest request) {
             var dish = request.MapToEntity();
             await dishService.AddDishAsync(dish);
@@ -41,6 +43,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 
         [HttpPost]
         [Route("remove")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemovoveDishByIdFromMenu(int dishID)
         {
             await dishService.RemoveDishByIdAsync(dishID);
@@ -49,6 +52,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 
         [HttpPost]
         [Route("update")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDish(Dish dish)
         {
             await dishService.UpdateDishAsync(dish);

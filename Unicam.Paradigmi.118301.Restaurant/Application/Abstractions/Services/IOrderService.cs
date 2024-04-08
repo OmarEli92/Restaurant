@@ -1,4 +1,5 @@
-﻿using Models.Entities;
+﻿using Application.Models.DTO;
+using Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Application.Abstractions.Services
 
        
         Task<Order> GetOrderAsync(int id);
-        List<Order> GetOrdersFromUser(int start, string? attribute, User? user, int num, out int totalNumberOfOrders);
+        List<OrderDTO> GetOrdersFromUser(int start, string? attribute, User? user, int num, out int totalNumberOfOrders);
 
         int AddOrder(Order order, out decimal totalCheck);
 

@@ -1,4 +1,4 @@
-﻿using Application.Models.Responses;
+﻿using Models.Responses.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,10 +5,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Application.Models.Responses
+namespace Models.Responses.Base
 {
     public class BaseResponse<T>
-{
+    {
         public bool Success { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
