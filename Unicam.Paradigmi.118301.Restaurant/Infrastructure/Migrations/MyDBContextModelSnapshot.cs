@@ -51,7 +51,7 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.ToTable("Dishes");
+                    b.ToTable("Dishes", (string)null);
                 });
 
             modelBuilder.Entity("Models.Entities.Order", b =>
@@ -79,7 +79,7 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
                     b.HasIndex("OrderedByUserUserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Models.Entities.User", b =>
@@ -116,7 +116,7 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Models.Entities.Dish", b =>

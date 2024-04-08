@@ -31,22 +31,25 @@ namespace Infrastructure.Repositories
                                     User? user, out int totalNumberOfOrders)
         {
 
-            if (string.IsNullOrEmpty(attribute)){
+            if (string.IsNullOrEmpty(attribute) || attribute.Equals("string")){
                 attribute = "OrderDate";   
             }
             //var query = context.Orders.OrderByField(u => u.GetType().GetProperty(attribute));
             var query = context.Orders.AsQueryable();
 
-            if (user != null)
+            if (user != null && !(user.Role.Equals("Admin")))
             {
                 query.Where(o => o.OrderedByUser == user);
+                    
             }
-            totalNumberOfOrders = query.Count();
-            return query.OrderByField(attribute,true)
+            
+            totalNumberOfOrders = query.Count(); // TODO modificare con orders.Capacity 
+            List<Order> orders =  query.OrderByField(attribute,true).Include(o => o.OrderedDishes)
                             .Skip(start)
                           .Take(nOfRecords)
                           .ToList();
-
+            
+            return orders;
         }
 
         
@@ -72,19 +75,6 @@ namespace Infrastructure.Repositories
                 .FirstAsync();
         }
 
-        //TODO da testare se va bene generico altrimenti lasciare questo metodo 
-        /** Get a prder based on its email**/
-        /*
-        public List<Order> GetOrdersFromUser(User user,int start, int nOfRecords, out int totalNumberOfOrders )
-        {
-            var query = context.Orders
-                        .Where(o => o.OrderedByUser == user);
-            totalNumberOfOrders = query.Count();
-            return query.Skip(start)
-                .Take(nOfRecords)
-                .ToList();
-        }
-        */
 
         public async Task RemoveOrderAsync(Order order)
         {
