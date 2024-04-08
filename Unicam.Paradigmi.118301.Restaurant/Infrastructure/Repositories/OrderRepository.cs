@@ -16,6 +16,9 @@ namespace Infrastructure.Repositories
         {
         }
 
+
+        
+
         /// <summary>
         /// Get all the orders ,ordered by the attribute provided
         /// </summary>
@@ -23,7 +26,7 @@ namespace Infrastructure.Repositories
         /// <param name="start">Start of the result.</param>
         /// <param name="nOfRecords">Number of records to take</param>
         /// <param name="totalNumberOfOrders">Number of records present in the db</param>
-        public List<Order> GetOrders(int start, int nOfRecords,string? attribute,
+        public List<Order> GetOrdersFromUser(int start, int nOfRecords,string? attribute,
                                     User? user, out int totalNumberOfOrders)
         {
 
@@ -42,6 +45,7 @@ namespace Infrastructure.Repositories
 
         }
 
+        
 
         /// <summary>
         /// Add a new order and calculate the total check
@@ -56,7 +60,7 @@ namespace Infrastructure.Repositories
             return  order.OrderID;
         }
 
-        /** Get a order based on its id**/
+        /** Get a order based on its id async version**/
         public async Task<Order> GetOrderAsync(int id)
         {
             return await context.Orders

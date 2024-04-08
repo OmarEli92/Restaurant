@@ -17,5 +17,7 @@ namespace Application.Models.Requests
         public int PageNumber { get; set; }
         //page size 
         public int PageSize { get; set; }
+        // nullable attribute that can be used to specify the order of the result
+        public string OrderByAttribute { get; set; } = null!;
     }
 }

@@ -51,7 +51,7 @@ namespace Application.Services
         private List<Dish> getAllDishesFromRequest(List<String> dishesRequest)
         {
             var dishes = new List<Dish>();
-            var order = new Order(); //TODO VERIFICARE E ELIMINARE SE RIDONDANTE
+            
             return dishesRequest.Select(d => dishRepository.GetDishByName(d)).ToList();
             
         }
@@ -93,17 +93,13 @@ namespace Application.Services
             return await orderRepository.GetOrderAsync(id);
         }
 
-        public List<Order> GetOrdersByUser(int start,string? attribute,User? user,
+        public List<Order> GetOrdersFromUser(int start,string? attribute,User? user,
                                             int num, out int totalNumberOfOrders)
         {
-            return orderRepository.GetOrders(start, num,attribute,user,out totalNumberOfOrders);
+            return orderRepository.GetOrdersFromUser(start, num,attribute,user,out totalNumberOfOrders);
         }
 
-        public List<Order> GetOrders(int start, string? attribute, User? user,
-                                            int num, out int totalNumberOfOrders)
-        {
-            return orderRepository.GetOrders(start, num,attribute,user, out totalNumberOfOrders);
-        }
+       
 
         public async Task RemoveOrderAsync(Order order)
         {

@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Services;
 using Application.Factories;
+using Application.Models.Requests;
 using Application.Models.Requests.Dishes;
 using Application.Models.Responses.Dishes;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +22,10 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 
         [HttpPost]
         [Route("all")]
-        public IEnumerable<Dish> GetDishes(int start, int num , string? attribute)
+        public IEnumerable<Dish> GetDishes(BaseGetAllRequest request)
         {
             int totalOfDishes = 0;
-            return  dishService.GetDishes(start,num,attribute,out totalOfDishes);
+            return  dishService.GetDishes(request.PageNumber,request.PageSize,request.OrderByAttribute,out totalOfDishes);
         }
 
 

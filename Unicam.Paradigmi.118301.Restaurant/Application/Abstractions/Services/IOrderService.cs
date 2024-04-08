@@ -10,9 +10,9 @@ namespace Application.Abstractions.Services
     public interface IOrderService
     {
 
-        List<Order> GetOrders(int start, string? attribute, User? user,int num, out int totalNumberOfOrders);
+       
         Task<Order> GetOrderAsync(int id);
-        List<Order> GetOrdersByUser(int start, string? attribute, User? user, int num, out int totalNumberOfOrders);
+        List<Order> GetOrdersFromUser(int start, string? attribute, User? user, int num, out int totalNumberOfOrders);
 
         int AddOrder(Order order, out decimal totalCheck);
 

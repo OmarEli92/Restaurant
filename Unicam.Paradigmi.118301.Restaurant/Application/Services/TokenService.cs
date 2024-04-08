@@ -37,7 +37,8 @@ namespace Application.Services
             claims.Add(new Claim("First_name", $"{user.FirstName}"));
             claims.Add(new Claim("Last_name", $"{user.LastName}"));
             claims.Add(new Claim("Email", $"{user.Email}"));
-            claims.Add(new Claim("Role", $"{user.Role}"));
+            claims.Add(new Claim(ClaimTypes.Role, user.Role));
+            //claims.Add(new Claim("Role", $"{user.Role}"));
             var securityKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(jwtAuthOption.Key)
             );

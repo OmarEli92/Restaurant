@@ -15,11 +15,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
                 app.UseSwaggerUI();
             }
 
-            app.Use(async (HttpContext context, Func<Task> next) =>
-            {
-                
-                await next.Invoke();
-            });
+            
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

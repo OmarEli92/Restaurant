@@ -28,13 +28,13 @@ namespace Infrastructure.Repositories
         /// <param name="totalNumberOfDishes">Number of records present in the db</param>
         public List<Dish> GetDishes(int start, int nOfRecords, string? attribute, out int totalNumberOfDishes)
         {
-            if (string.IsNullOrEmpty(attribute))
+            if (string.IsNullOrEmpty(attribute) || attribute.Equals("string"))
             {
                 attribute = "Name";
             }
             totalNumberOfDishes = context.Dishes.Count();
             var orderByProperty = typeof(Dish).GetProperty(attribute); 
-            if (orderByProperty == null)
+            if (orderByProperty == null )
             {
                 throw new ArgumentException("Invalid attribute specified");
             }
@@ -77,7 +77,7 @@ namespace Infrastructure.Repositories
         public Dish GetDishByName(string name)
         {
             return  context.Dishes
-                .Where(d => d.Name.Equals(name))
+                .Where(d => d.Name.ToLower().Equals(name.ToLower()))
                 .First();
                 }
        

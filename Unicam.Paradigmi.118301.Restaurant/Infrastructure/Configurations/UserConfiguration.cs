@@ -15,6 +15,8 @@ namespace Infrastructure.Configuration
         {
             builder.ToTable("Users");
             builder.HasKey("UserId");
+            builder.HasIndex("Email")
+                .IsUnique();
             builder.Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(50);

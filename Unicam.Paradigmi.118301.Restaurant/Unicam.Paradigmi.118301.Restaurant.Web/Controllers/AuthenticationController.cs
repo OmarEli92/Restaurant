@@ -4,6 +4,9 @@ using Application.Factories;
 using Application.Models.DTO;
 using Application.Models.Requests;
 using Application.Models.Requests.Users;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Responses.Users;
 using System.Security.Claims;
@@ -58,19 +61,13 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
                 string token = tokenService.CreateToken(tokenRequest);
 
                 // return Ok($"Login succesful!! Welcome back {user.FirstName}");
-                return Ok(token);
+                return Ok(ResponseFactory.WithSuccess(token));
             }
             return BadRequest("Username or password incorrect");
 
         }
 
-        [HttpGet]
-        [Route("Claims")]
-        public IActionResult ShowMeClaims()
-        {
-            var userIdentity = this.User.Identity as ClaimsIdentity;
-            var userId = userIdentity.Claims.Where(u => u.Type == "User_id");
-            return Ok(userId);
-        }
+
+        
     }
 }

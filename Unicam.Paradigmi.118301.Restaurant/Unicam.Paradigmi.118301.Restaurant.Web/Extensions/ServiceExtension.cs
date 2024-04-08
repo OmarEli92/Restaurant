@@ -4,6 +4,7 @@ using Application.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 using UApplication.Options;
 
 namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
@@ -58,6 +59,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
                     var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
                         System.Text.Encoding.UTF8.GetBytes(key)
                         );
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
                     {
                         ValidateIssuer = true,
@@ -68,13 +70,19 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
                         IssuerSigningKey = securityKey
                     };
                 });
-
+            services.AddAuthorization();
+            services.AddOptions(configuration);
             services.AddFluentValidationAutoValidation();
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             return services;
         }
 
-        public static IServiceCollection AddOption(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddOptions(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<JwtAuthenticationOptioons>(
+                configuration.GetSection("JwtAuthentication")
+                );
             services.Configure<HashingOptions>(configuration.GetSection("HashingOptions"));
             return services;
         }
