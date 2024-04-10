@@ -3,6 +3,8 @@ using Application.Options;
 using Application.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using UApplication.Options;
@@ -20,6 +22,12 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
                 {
                     Title = "Restaurant API",
                     Version = "v1"
+                });
+                c.MapType<DateOnly>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "date",
+                    Example = new OpenApiString(DateTime.Today.ToString("yyyy-MM-dd"))
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -82,8 +90,10 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
                         return new BadRequestResultFactory(context);
                     };
                 })
-                .AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+                .AddJsonOptions(x => {
+                    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
+
             return services;
         }
 

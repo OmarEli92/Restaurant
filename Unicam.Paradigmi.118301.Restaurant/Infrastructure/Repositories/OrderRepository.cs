@@ -91,22 +91,26 @@ namespace Infrastructure.Repositories
             
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersFromDateToDate(DateOnly start, DateOnly end,
-                                                                      int? userId, string orderBy)
+        public IEnumerable<Order> GetOrdersFromDateToDate(DateTime start, DateTime end,
+                                                                      int? userId, string orderBy,
+                                                                     out int totalNumberOfOrders)
         {
             var safeStart = new SqlParameter("start", start);
             var safeEnd = new SqlParameter("end", end);
+            var history = new List<Order>();
             // if there is a user id to use as a filter
             if(!userId.HasValue)
             {
-                return context.Orders.FromSqlRaw(
-                    $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end ) ORDER BY {orderBy}",start,end)
+                history =  context.Orders.FromSqlRaw(
+                    $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end ) ORDER BY {orderBy}",safeStart,safeEnd)
                     .ToList();
             }
             var safeUserId = new SqlParameter("userId", userId);
-            return context.Orders.FromSqlRaw(
-                $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end && UserId = @userId) ORDER BY {orderBy}", start, end, userId)
+            history =  context.Orders.FromSqlRaw(
+                $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end && UserId = @userId) ORDER BY {orderBy}", safeStart, safeEnd, userId)
                 .ToList();
+            totalNumberOfOrders = history.Count();
+            return history;
         }
     }
 

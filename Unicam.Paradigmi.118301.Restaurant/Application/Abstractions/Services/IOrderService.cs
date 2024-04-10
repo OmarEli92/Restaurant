@@ -24,5 +24,9 @@ namespace Application.Abstractions.Services
         Order GenerateOrder(List<DishDTO> dishesOrdered,int orderId, int userId);
 
         int GenerateID();
+
+        public List<OrderDTO> GetOrdersFromDateToDate(string start, string end,
+                                                      int? userId, string orderBy,
+                                                      out int totalNumberOfOrders);
     }
 }

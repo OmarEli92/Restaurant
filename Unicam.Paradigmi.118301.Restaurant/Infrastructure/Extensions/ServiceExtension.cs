@@ -17,14 +17,10 @@ namespace Infrastructure.Extensions
                                                                    IConfiguration configuration)
         {
             services.AddDbContext<MyDBContext>(conf => conf.UseSqlServer(
-                                                configuration.GetConnectionString("MyDBContext")));
+                                                configuration.GetConnectionString("MyDBContext")
+                                                ));
 
-            /*
-            services.AddDbContext<MyDBContext>((serviceProvider, options) =>
-            {
-                options.UseInternalServiceProvider(serviceProvider);
-            });
-            */
+            
             services.AddScoped<DishRepository>();
             services.AddScoped<OrderRepository>();
             services.AddScoped<UserRepository>();

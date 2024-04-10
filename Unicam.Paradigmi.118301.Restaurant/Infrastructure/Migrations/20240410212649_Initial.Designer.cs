@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20240410084125_Initial-mod")]
-    partial class Initialmod
+    [Migration("20240410212649_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,15 +70,15 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderedByUserUserId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("TotalCheck")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderID");
 
-                    b.HasIndex("OrderedByUserUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -133,13 +133,13 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
             modelBuilder.Entity("Models.Entities.Order", b =>
                 {
-                    b.HasOne("Models.Entities.User", "OrderedByUser")
+                    b.HasOne("Models.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("OrderedByUserUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderedByUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Models.Entities.Order", b =>

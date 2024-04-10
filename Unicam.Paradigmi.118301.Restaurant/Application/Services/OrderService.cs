@@ -38,7 +38,7 @@ namespace Application.Services
         {
             
             var order = new Order();
-            var dishes = GenerateTheListOfDishesFromDTO(dishesOrdered, orderId);     
+            var dishes = GenerateTheListOfDishesFromDTO(dishesOrdered, orderId);
             order.OrderDate = DateTime.Now;
             order.OrderedDishes = dishes;
             order.UserId = userId;
@@ -153,6 +153,26 @@ namespace Application.Services
             return lastOrder.OrderID + 1;
         }
 
-        
+        public List<OrderDTO> GetOrdersFromDateToDate(string start, string end,
+                                                                      int? userId, string orderBy,
+                                                                      out int totalNumberOfOrders)
+        {
+            var ordersDTOS = new List<OrderDTO>();
+            DateTime startDate = DateTime.Parse(start);
+            DateTime endDate = DateTime.Parse(end);
+            if (startDate == null || endDate == null)
+            {
+                throw new Exception("The correct Date format is dd-MM-yyyy");
+            }
+            else
+            {
+                var orders = orderRepository.GetOrdersFromDateToDate(startDate, endDate, userId, orderBy, out totalNumberOfOrders);
+                foreach (Order order in orders)
+                {
+                    ordersDTOS.Add(new OrderDTO(order));
+                }
+            }
+            return ordersDTOS;
+        }
     }
 }

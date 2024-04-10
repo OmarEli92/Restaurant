@@ -48,9 +48,10 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
         // in the case the active user is the admin it returns all the orders created by every customer.
         [HttpPost]
         [Route("History")]
-        public async Task<IActionResult> GetHistory(BaseGetAllRequest request)
+        public async Task<IActionResult> GetHistory(GetOrdersPaginatedRequest request)
         {
-            int totalNumberOfOrder = 0;
+            var date = DateTime.Now.Date;
+            int totalNumberOfOrders = 0;
             var userIdentity = this.User.Identity as ClaimsIdentity;
             var userRole = userIdentity.Claims.Where( u => u.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").First().Value;
             var userId = int.Parse(userIdentity.Claims.Where(u => u.Type == "User_id").First().Value);
@@ -59,15 +60,18 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
             switch (userRole)
             {
                 case "Customer":
-                    history = orderService.GetOrdersFromUser(request.PageNumber, request.OrderByAttribute,
-                                                    user, request.PageSize, out totalNumberOfOrder);
+                    history = orderService.GetOrdersFromDateToDate(request.DateStart, request.DateEnd,
+                                                                   user.UserId, request.orderBy, out totalNumberOfOrders);
                     break;
                 case "Admin":
-                    history = orderService.GetOrdersFromUser(request.PageNumber, request.OrderByAttribute,
-                                                    user, request.PageSize, out totalNumberOfOrder);
+                    history = orderService.GetOrdersFromDateToDate(request.DateStart, request.DateEnd,request.userId,
+                                                                    request.orderBy, out totalNumberOfOrders);
                     break;
             }
-            return Ok(ResponseFactory.WithSuccess(history));
+            var response = new GetPaginatedHistoryResponse();
+            response.orders = history;
+            response.NumberOfPages = totalNumberOfOrders;
+            return Ok(ResponseFactory.WithSuccess(response));
         }
 
         

@@ -33,7 +33,7 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                 {
                     OrderID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderedByUserUserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalCheck = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -42,8 +42,8 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderID);
                     table.ForeignKey(
-                        name: "FK_Orders_Users_OrderedByUserUserId",
-                        column: x => x.OrderedByUserUserId,
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -59,28 +59,28 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    OrderID = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dishes", x => x.DishId);
                     table.ForeignKey(
-                        name: "FK_Dishes_Orders_OrderID",
-                        column: x => x.OrderID,
+                        name: "FK_Dishes_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dishes_OrderID",
+                name: "IX_Dishes_OrderId",
                 table: "Dishes",
-                column: "OrderID");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_OrderedByUserUserId",
+                name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "OrderedByUserUserId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
