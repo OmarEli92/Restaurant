@@ -11,15 +11,16 @@ namespace Application.Models.Requests.Dishes
     public class CreateDishRequest
     {
         public string Name { get; set; }
-        public string Description { get; set; }
+        public int Quantity { get; set; }
         public decimal Price { get; set; }
         public MenuCourses Type { get; set; }
+        public Order Order { get; set; }
 
         public Dish MapToEntity()
         {
             var dish = new Dish();
             dish.Name = Name;
-            dish.Description = Description;
+            dish.Order = Order;
             dish.Price = Price;
             dish.Type = Type;
             return dish;

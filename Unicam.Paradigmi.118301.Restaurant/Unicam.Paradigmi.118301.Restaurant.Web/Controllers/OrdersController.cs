@@ -28,13 +28,14 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
         [Route("Add")]
         public async Task<IActionResult> AddOrder(AddOrderRequest orderRequests)
         {
-            var order = orderService.GenerateOrder(orderRequests.OrderedDishes);
-            order.DeliveryAddress = orderRequests.DeliveryAddress;
+            int orderId = orderService.GenerateID();
             // Get the customerID from the active user
-            var customerIdentity = this.User.Identity as ClaimsIdentity;
-            var customerID = int.Parse(customerIdentity.Claims.Where(c => c.Type == "User_id").First().Value);
+            var activeUser = this.User.Identity as ClaimsIdentity;
+            int userId = int.Parse(activeUser.Claims.Where(u => u.Type == "User_id").First().Value);
+            var order = orderService.GenerateOrder(orderRequests.OrderedDishes, orderId, userId);
+            order.DeliveryAddress = orderRequests.DeliveryAddress;
             // set the info of the customer who is makind the order
-            order.OrderedByUser = await userService.GetUserAsync(customerID);
+            order.User = await userService.GetUserAsync(userId);
             decimal TotalCheck = 0;
             orderService.AddOrder(order, out TotalCheck);
             var response = new AddOrderResponse();
@@ -68,6 +69,8 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
             }
             return Ok(ResponseFactory.WithSuccess(history));
         }
+
+        
         
     }
 }

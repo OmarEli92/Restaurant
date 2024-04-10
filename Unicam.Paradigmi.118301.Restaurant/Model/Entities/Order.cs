@@ -10,7 +10,8 @@ namespace Models.Entities
     public class Order
     {
         public int OrderID { get; set; }
-        public User OrderedByUser { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public DateTime OrderDate { get; set; }
         
         public string DeliveryAddress {  get; set; }

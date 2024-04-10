@@ -6,17 +6,16 @@ namespace Application.Models.DTO
 {
     public class DishDTO
 {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public int Quantity{ get; set; }
         public decimal Price { get; set; }
         public MenuCourses Type { get; set; }
+        
         public DishDTO() { }
         public DishDTO(Dish dish)
         {
-            Id = dish.DishId; 
             Name = dish.Name;
-            Description = dish.Description;
+            Quantity = dish.Quantity;
             Price = dish.Price;
            Type = dish.Type;
         }

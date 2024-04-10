@@ -15,9 +15,6 @@ namespace Infrastructure.Configuration
         {
             builder.ToTable("Dishes");
             builder.HasKey(d => d.DishId);
-            builder.Property(d => d.Description)
-                .IsRequired()
-                .HasMaxLength(200);
             builder.Property(d => d.Price)
                 .IsRequired()
                 .HasPrecision(18, 2);

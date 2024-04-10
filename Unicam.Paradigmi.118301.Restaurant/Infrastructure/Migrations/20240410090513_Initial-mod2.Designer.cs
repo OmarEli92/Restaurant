@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20240408015310_setNewProp")]
-    partial class setNewProp
+    [Migration("20240410090513_Initial-mod2")]
+    partial class Initialmod2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,26 +32,25 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DishId"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderID")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("DishId");
 
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Dishes");
                 });
@@ -71,15 +70,15 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderedByUserUserId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("TotalCheck")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderID");
 
-                    b.HasIndex("OrderedByUserUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -123,20 +122,24 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
             modelBuilder.Entity("Models.Entities.Dish", b =>
                 {
-                    b.HasOne("Models.Entities.Order", null)
+                    b.HasOne("Models.Entities.Order", "Order")
                         .WithMany("OrderedDishes")
-                        .HasForeignKey("OrderID");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Models.Entities.Order", b =>
                 {
-                    b.HasOne("Models.Entities.User", "OrderedByUser")
+                    b.HasOne("Models.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("OrderedByUserUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderedByUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Models.Entities.Order", b =>

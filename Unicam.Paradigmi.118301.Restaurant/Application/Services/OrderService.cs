@@ -29,40 +29,35 @@ namespace Application.Services
         
         public int AddOrder(Order order, out decimal totalCheck)
         {
-
-            // if the selected dishes are in the menu then the order is valid
-            if (order.OrderedDishes.All(d => CheckIfDishExists(d))) 
-            { 
             order.TotalCheck = CalculateTheCheck(order,(decimal) 0.9);
             var orderId = orderRepository.AddOrder(order, out totalCheck);
-            return orderId;
-            }
-            //otherwise return -1 as id
-            totalCheck = 0;
-            return -1;
+            return orderId;  
         }
 
-        public Order GenerateOrder(List<String> dishesOrdered)
+        public Order GenerateOrder(List<DishDTO> dishesOrdered, int orderId, int userId)
         {
-            var dishes = getAllDishesFromRequest(dishesOrdered);
+            
             var order = new Order();
+            var dishes = GenerateTheListOfDishesFromDTO(dishesOrdered, orderId);     
             order.OrderDate = DateTime.Now;
             order.OrderedDishes = dishes;
+            order.UserId = userId;
             return order;
         }
-        private List<Dish> getAllDishesFromRequest(List<String> dishesRequest)
+        private List<Dish> GenerateTheListOfDishesFromDTO(List<DishDTO> dishesDTO, int orderId)
         {
-            var dishes = new List<Dish>();
-            
-            return dishesRequest.Select(d => dishRepository.GetDishByName(d)).ToList();
-            
-        }
-
-        private bool CheckIfDishExists(Dish dish)
-        {
-            var checkedDish = dishRepository.GetDishAsync(dish.DishId);
-            if (checkedDish != null) return true;
-            return false;
+            return dishesDTO
+                .Select<DishDTO, Dish>(d =>
+                {
+                    var dish = new Dish();
+                    dish.OrderId = orderId;
+                    dish.Name = d.Name;
+                    dish.Quantity = d.Quantity;
+                    dish.Price = d.Price;
+                    dish.Type = d.Type;
+                    return dish;
+                })
+                .ToList();
         }
         private bool CheckForDiscount(Order order)
         {
@@ -71,24 +66,50 @@ namespace Application.Services
             // check if the order is complete 
             return types.All(type => order.OrderedDishes.Any(d => d.Type == type)); 
         }
+
+        /* The discount is only applied to one and only dish for each courses if the menu is complete
+          the most expensive one get the discount the others are at full price*/
         private decimal CalculateTheCheck(Order order, decimal discountPercentage)
         {
             if (!CheckForDiscount(order))
             {
                 return order.OrderedDishes.Sum(d => d.Price);
             }
-            var mostExpensiveStarter = order.OrderedDishes
-                                        .Where(d => d.Type == MenuCourses.Starter)
-                                        .OrderByDescending(d => d.Price)
-                                        .First();
-            // apply the discount (10%) to the orderedDishes and the most expensive Starter +             
-            var totalCheck =  (order.OrderedDishes
-                                    .Where(d => d.Type != MenuCourses.Starter)
-                                    .Sum(d => d.Price) + mostExpensiveStarter.Price) * (discountPercentage)
-                                    + order.OrderedDishes
-                                    .Where(d => d.Type == MenuCourses.Starter && d.Type != mostExpensiveStarter.Type)
-                                    .Sum(d => d.Price);
+            var mostExpensiveStarter = GetMostExpensiveDishForEachType(order, MenuCourses.Starter);
+            var mostExpensiveMainCourse = GetMostExpensiveDishForEachType(order, MenuCourses.MainCourse);
+            var mostExpensiveSideCourse = GetMostExpensiveDishForEachType(order, MenuCourses.SideDish);
+            var mostExpensiveDessert = GetMostExpensiveDishForEachType(order, MenuCourses.Dessert);
+            decimal totalCheck = 0;
+            order.OrderedDishes.ForEach(dish =>
+            {
+                decimal price = dish.Price;
+                if (dish.Equals(mostExpensiveStarter) || dish.Equals(mostExpensiveMainCourse)
+                               || dish.Equals(mostExpensiveSideCourse) || dish.Equals(mostExpensiveDessert))
+                {
+                    price *= discountPercentage;
+                    // In the case the most expensive dish of the course has a quantity greater than 1
+                    if (CheckIfQuantityIsGreaterThanOneInExpensiveCourses(dish))
+                    {
+                        
+                        price += (dish.Quantity - 1) * dish.Price;
+                    }
+                    
+                }
+                totalCheck += price;
+            });
             return totalCheck;
+        }
+
+        private bool CheckIfQuantityIsGreaterThanOneInExpensiveCourses(Dish expensiveDish)
+        {
+            return expensiveDish.Quantity > 1;
+        }
+        private Dish GetMostExpensiveDishForEachType(Order order,MenuCourses type)
+        {
+            return order.OrderedDishes
+                .Where(d => d.Type == type)
+                .OrderByDescending(d => d.Price)
+                .First();
         }
         public async Task<Order> GetOrderAsync(int id)
         {
@@ -117,6 +138,19 @@ namespace Application.Services
         public async Task UpdateOrderAsync(Order order)
         {
             await orderRepository.UpdateOrderAsync(order);
+        }
+
+        public int GenerateID()
+        {
+            var lastOrder = orderRepository.GetAll()
+                .OrderBy(o => o.OrderID)
+                .Reverse()
+                .FirstOrDefault();
+            if(lastOrder == null)
+            {
+                return 0;
+            }
+            return lastOrder.OrderID + 1;
         }
 
         

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20240404115437_Initial")]
-    partial class Initial
+    [Migration("20240410084125_Initial-mod")]
+    partial class Initialmod
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,26 +32,25 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DishId"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderID")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("DishId");
 
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Dishes");
                 });
@@ -123,9 +122,13 @@ namespace Unicam.Paradigmi._118301.Infrastructure.Migrations
 
             modelBuilder.Entity("Models.Entities.Dish", b =>
                 {
-                    b.HasOne("Models.Entities.Order", null)
+                    b.HasOne("Models.Entities.Order", "Order")
                         .WithMany("OrderedDishes")
-                        .HasForeignKey("OrderID");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Models.Entities.Order", b =>

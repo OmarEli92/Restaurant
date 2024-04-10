@@ -21,6 +21,8 @@ namespace Application.Abstractions.Services
 
         Task UpdateOrderAsync(Order order);
 
-        Order GenerateOrder(List<String> dishesOrdered);
+        Order GenerateOrder(List<DishDTO> dishesOrdered,int orderId, int userId);
+
+        int GenerateID();
     }
 }

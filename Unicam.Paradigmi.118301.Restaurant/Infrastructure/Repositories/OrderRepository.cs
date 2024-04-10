@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Context;
 using Infrastructure.Extensions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using System;
@@ -39,7 +40,7 @@ namespace Infrastructure.Repositories
 
             if (user != null && !(user.Role.Equals("Admin")))
             {
-                query.Where(o => o.OrderedByUser == user);
+                query.Where(o => o.User == user);
                     
             }
             
@@ -87,6 +88,25 @@ namespace Infrastructure.Repositories
             Update(order);
             await context.SaveChangesAsync();
             
+            
+        }
+
+        public async Task<IEnumerable<Order>> GetOrdersFromDateToDate(DateOnly start, DateOnly end,
+                                                                      int? userId, string orderBy)
+        {
+            var safeStart = new SqlParameter("start", start);
+            var safeEnd = new SqlParameter("end", end);
+            // if there is a user id to use as a filter
+            if(!userId.HasValue)
+            {
+                return context.Orders.FromSqlRaw(
+                    $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end ) ORDER BY {orderBy}",start,end)
+                    .ToList();
+            }
+            var safeUserId = new SqlParameter("userId", userId);
+            return context.Orders.FromSqlRaw(
+                $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end && UserId = @userId) ORDER BY {orderBy}", start, end, userId)
+                .ToList();
         }
     }
 
