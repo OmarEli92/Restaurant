@@ -26,7 +26,6 @@ namespace Application.Abstractions.Services
         int GenerateID();
 
         public List<OrderDTO> GetOrdersFromDateToDate(string start, string end,
-                                                      int? userId, string orderBy,
-                                                      out int totalNumberOfOrders);
+                                                      int? userId, out int totalNumberOfOrders);
     }
 }

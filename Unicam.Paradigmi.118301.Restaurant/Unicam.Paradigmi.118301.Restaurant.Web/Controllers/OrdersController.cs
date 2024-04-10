@@ -61,14 +61,14 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
             {
                 case "Customer":
                     history = orderService.GetOrdersFromDateToDate(request.DateStart, request.DateEnd,
-                                                                   user.UserId, request.orderBy, out totalNumberOfOrders);
+                                                                   user.UserId, out totalNumberOfOrders);
                     break;
                 case "Admin":
                     history = orderService.GetOrdersFromDateToDate(request.DateStart, request.DateEnd,request.userId,
-                                                                    request.orderBy, out totalNumberOfOrders);
+                                                                     out totalNumberOfOrders);
                     break;
             }
-            var response = new GetPaginatedHistoryResponse();
+            var response = new GetPaginatedHistoryResponse(); //TODO paginare i risultati
             response.orders = history;
             response.NumberOfPages = totalNumberOfOrders;
             return Ok(ResponseFactory.WithSuccess(response));

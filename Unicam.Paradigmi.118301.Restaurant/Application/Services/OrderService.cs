@@ -153,9 +153,7 @@ namespace Application.Services
             return lastOrder.OrderID + 1;
         }
 
-        public List<OrderDTO> GetOrdersFromDateToDate(string start, string end,
-                                                                      int? userId, string orderBy,
-                                                                      out int totalNumberOfOrders)
+        public List<OrderDTO> GetOrdersFromDateToDate(string start, string end, int? userId, out int totalNumberOfOrders)
         {
             var ordersDTOS = new List<OrderDTO>();
             DateTime startDate = DateTime.Parse(start);
@@ -166,7 +164,7 @@ namespace Application.Services
             }
             else
             {
-                var orders = orderRepository.GetOrdersFromDateToDate(startDate, endDate, userId, orderBy, out totalNumberOfOrders);
+                var orders = orderRepository.GetOrdersFromDateToDate(startDate, endDate, userId, out totalNumberOfOrders);
                 foreach (Order order in orders)
                 {
                     ordersDTOS.Add(new OrderDTO(order));

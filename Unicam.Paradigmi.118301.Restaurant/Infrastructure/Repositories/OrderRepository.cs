@@ -44,7 +44,7 @@ namespace Infrastructure.Repositories
                     
             }
             
-            totalNumberOfOrders = query.Count(); // TODO modificare con orders.Capacity 
+            totalNumberOfOrders = query.Count(); 
             List<Order> orders =  query.OrderByField(attribute,true).Include(o => o.OrderedDishes)
                             .Skip(start)
                           .Take(nOfRecords)
@@ -92,23 +92,22 @@ namespace Infrastructure.Repositories
         }
 
         public IEnumerable<Order> GetOrdersFromDateToDate(DateTime start, DateTime end,
-                                                                      int? userId, string orderBy,
+                                                                      int? userId,
                                                                      out int totalNumberOfOrders)
         {
-            var safeStart = new SqlParameter("start", start);
-            var safeEnd = new SqlParameter("end", end);
             var history = new List<Order>();
+            var query = context.Orders.Include(o => o.OrderedDishes);
             // if there is a user id to use as a filter
-            if(!userId.HasValue)
-            {
-                history =  context.Orders.FromSqlRaw(
-                    $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end ) ORDER BY {orderBy}",safeStart,safeEnd)
+            history = query.Where(o => o.OrderDate.CompareTo(start) >= 1 &&
+                                         o.OrderDate.CompareTo(end) <= 1)
+                    .OrderBy(o => o.OrderDate)
                     .ToList();
-            }
-            var safeUserId = new SqlParameter("userId", userId);
-            history =  context.Orders.FromSqlRaw(
-                $"SELECT * FROM Orders WHERE ( OrderDate >= @start && OrderDate <= @end && UserId = @userId) ORDER BY {orderBy}", safeStart, safeEnd, userId)
-                .ToList();
+            if (userId.HasValue)
+            {
+
+                history = history.Where(o => o.UserId == userId)
+                    .ToList();
+            } 
             totalNumberOfOrders = history.Count();
             return history;
         }
