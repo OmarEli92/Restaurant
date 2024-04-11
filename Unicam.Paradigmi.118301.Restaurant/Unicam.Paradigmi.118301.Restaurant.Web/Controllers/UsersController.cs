@@ -13,7 +13,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    //[Authorize(Roles ="Admin")]
+    // [Authorize(Roles ="Admin")]
     public class UsersController: ControllerBase
     {
         private readonly IUserService userService;

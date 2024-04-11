@@ -14,6 +14,7 @@ namespace Application.Models.DTO
         public String DeliveryAddress { get; set; }
         public List<DishDTO> OrderedDishes { get; set; } = new List<DishDTO>();
         public decimal TotalCheck { get; set; }
+        public int UserId { get; set; }
 
 
         public OrderDTO()
@@ -27,6 +28,7 @@ namespace Application.Models.DTO
             DeliveryAddress = order.DeliveryAddress;
             OrderedDishes = order.OrderedDishes.Select(o => new DishDTO(o)).ToList();
             TotalCheck = order.TotalCheck;
+            UserId = order.UserId;
         }
     }
 }

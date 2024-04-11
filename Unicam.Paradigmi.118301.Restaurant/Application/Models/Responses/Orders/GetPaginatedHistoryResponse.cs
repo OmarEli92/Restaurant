@@ -10,7 +10,7 @@ namespace Application.Models.Responses.Orders
 {
     public class GetPaginatedHistoryResponse
 {
-        public List<OrderDTO> orders;
+        public List<OrderDTO> orders {  get; set; }
 
         public int NumberOfPages { get; set; }
     }

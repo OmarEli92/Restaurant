@@ -43,7 +43,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
             return Ok(ResponseFactory.WithSuccess(response));
         }
 
-
+        
         // Returns the list of all the customer's orders if the active user is a customer,
         // in the case the active user is the admin it returns all the orders created by every customer.
         [HttpPost]
@@ -68,13 +68,20 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
                                                                      out totalNumberOfOrders);
                     break;
             }
-            var response = new GetPaginatedHistoryResponse(); //TODO paginare i risultati
-            response.orders = history;
-            response.NumberOfPages = totalNumberOfOrders;
-            return Ok(ResponseFactory.WithSuccess(response));
-        }
+            var pagesFound = (totalNumberOfOrders / (decimal)request.PageSize);
+            var pagedHistory = history
+                .Skip(request.PageNumber * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
 
+            var response = new GetPaginatedHistoryResponse(); 
+            response.orders = pagedHistory;
+            response.NumberOfPages = (int)Math.Ceiling(pagesFound);
+            return Ok(ResponseFactory.WithSuccess(response));
+           
+        }
         
-        
+
+
     }
 }
