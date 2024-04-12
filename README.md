@@ -1,12 +1,12 @@
 
 # 🍽️ Restaurant API 🌟
-Web API for restaurant order management. This API provides functionalities for user creation, authentication, order creation, and order history retrieval that can be downloaded.  
-A dump of the db is available inside the main folder of this repository, the chosen db is SQLServer.
+Web API for restaurant order management. This API provides functionalities for user creation, authentication, order creation, and order history retrieval.  
+A dump of the db is available inside the Infrastructure assembly of this repository, the chosen db is SQLServer.
 ## 💡 Usage 
- Every endpoint can be tested through swagger at the URL: https://localhost:7067/swagger/index.html  
+ Every endpoint can be tested through Swagger at the URL: https://localhost:7067/swagger/index.html  
  or through a simple web UI at the URL http://localhost:5500/index.html
  
- ## Login Credentials:
+ ### Login Credentials:
 ``` json
 {
   "email": "admin@gmail.com",
@@ -21,7 +21,7 @@ A dump of the db is available inside the main folder of this repository, the cho
   "password": "1234Abcd!"
 }
 ```
-## Usage example : Add a new order ->
+### Usage example : Add a new order ->
 ``` json
 {
   "deliveryAddress": "Roma, Contrada Salita dei Leoni 123",
@@ -104,7 +104,7 @@ A dump of the db is available inside the main folder of this repository, the cho
 - Streamline search with  filtering options(AND/OR):
   - Date range 📅
   - User ID 🆔
-- search results are paginated.
+- Search results are paginated.
 
 ## 🛠️ Endpoints
 
@@ -125,8 +125,7 @@ A dump of the db is available inside the main folder of this repository, the cho
     - User Id (optional)
     - Page (optional)
       
-### Order History download
-- **GET** `/api/v1/orders/history/download `
+
 
 
 
