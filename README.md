@@ -1,11 +1,64 @@
 
 # 🍽️ Restaurant API 🌟
-Web API for restaurant order management. This API provides functionalities for user creation, authentication, order creation, and order history retrieval that can be downloaded or sent by email in pdf format.
+Web API for restaurant order management. This API provides functionalities for user creation, authentication, order creation, and order history retrieval that can be downloaded.  
 A dump of the db is available inside the main folder of this repository, the chosen db is SQLServer.
 ## 💡 Usage 
- Every endpoint can be tested through swagger at the URL: https://localhost:7067/swagger/index.html or through a simple web UI at the URL http://localhost:3000/
+ Every endpoint can be tested through swagger at the URL: https://localhost:7067/swagger/index.html  
+ or through a simple web UI at the URL http://localhost:5500/index.html
  
- To use the UI you need nodeJS installed in your machine
+ ## Login Credentials:
+``` json
+{
+  "email": "admin@gmail.com",
+  "password": "Admin1234!"
+}
+{
+  "email": "andrea_bianchi@gmail.com",
+  "password": "Andrea1!"
+}
+{
+  "email": "mario_rossi@gmail.com",
+  "password": "1234Abcd!"
+}
+```
+## Usage example : Add a new order ->
+``` json
+{
+  "deliveryAddress": "Roma, Contrada Salita dei Leoni 123",
+  "orderedDishes": [
+    {
+      "name": "Carbonara",
+      "quantity": 2,
+      "price": 13,
+      "type": 0
+    },
+    {
+      "name": "Cotoletta di manzo",
+      "quantity": 1,
+      "price": 14,
+      "type": 1
+    },
+     {
+      "name": "Bistecca ai ferri",
+      "quantity": 1,
+      "price": 18,
+      "type": 1
+    },
+    {
+      "name": "Insalata con pomodori e carote",
+      "quantity": 1,
+      "price": 7,
+      "type": 2
+    },
+    {
+      "name": "Tiramisu",
+      "quantity": 2,
+      "price": 9,
+      "type": 3
+    }
+  ]
+}
+```
 ## 🚀 Features
 
 ### 1.a Customer User Creation with email and password
@@ -17,7 +70,7 @@ A dump of the db is available inside the main folder of this repository, the cho
   - Password 🔒
 - The user's role will automatically be set as "Customer".
 
-### 1.b Customer User Creation with Google API
+### 1.b Customer User Creation with Google API(not yet implemented)
 - This API allows the creation of a new customer user.
 - Users can be registered by providing the following information:
   - Email 📧
@@ -41,7 +94,7 @@ A dump of the db is available inside the main folder of this repository, the cho
   - ordered dishes 🍲
 
 #### Complete Meal Discount 💰
-- If the user orders a complete meal, they will receive a 10% discount.
+- When the user orders a complete meal, they will receive a 10% discount.
 - The complete meal is discounted only if it includes one dish of each type (appetizer, main course, side dish, dessert).
 
 ### 4. Order History
@@ -56,16 +109,16 @@ A dump of the db is available inside the main folder of this repository, the cho
 ## 🛠️ Endpoints
 
 ### Customer User Creation
-- **POST** `/api/v1/users/register`
+- **POST** `/api/v1/Auth/Register`
 
 ### Authentication
-- **POST** `/api/v1/users/login`
+- **POST** `/api/v1/Auth/Login`
 
 ### Order Creation
-- **POST** `/api/v1/orders/create`
+- **POST** `/api/v1/Orders/Add`
 
 ### Order History
-- **GET** `/api/v1/orders/history`
+- **GET** `/api/v1/Orders/history`
   - Parameters:
     - Start Date (required)
     - End Date (required)
@@ -75,8 +128,6 @@ A dump of the db is available inside the main folder of this repository, the cho
 ### Order History download
 - **GET** `/api/v1/orders/history/download `
 
-### Order History sent by email
-- **GET** `/api/v1/orders/history/send 
 
 
 
