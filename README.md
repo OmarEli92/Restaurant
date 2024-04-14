@@ -58,6 +58,16 @@ A dump of the db is available inside the Infrastructure assembly of this reposit
   ]
 }
 ```
+### Usage example : History ->
+``` json
+{
+  "dateStart": "09-04-2024",
+  "dateEnd": "10-04-2024",
+  "orderBy": "OrderDate",
+  "pageNumber": 0,
+  "pageSize": 4
+}
+```
 ## 🚀 Features
 
 ### 1.a Customer User Creation with email and password
