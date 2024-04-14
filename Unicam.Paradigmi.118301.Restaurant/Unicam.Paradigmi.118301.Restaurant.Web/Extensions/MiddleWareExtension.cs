@@ -40,6 +40,7 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Extensions
             });
 
             app.MapControllers();
+            app.UseStaticFiles();
             return app;
         }
     }

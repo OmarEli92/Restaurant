@@ -4,6 +4,8 @@ using Application.Models.DTO;
 using Application.Models.Requests;
 using Application.Models.Requests.Orders;
 using Application.Models.Responses.Orders;
+using Application.Services;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities;
@@ -18,10 +20,12 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IUserService userService;
-        public OrdersController(IOrderService orderService, IUserService userService)
+        private readonly PdfService pdfService;
+        public OrdersController(IOrderService orderService, IUserService userService, PdfService pdfService)
         {
             this.orderService = orderService;
             this.userService = userService;
+            this.pdfService = pdfService;
         }
 
         [HttpPost]
@@ -80,8 +84,37 @@ namespace Unicam.Paradigmi._118301.Restaurant.Web.Controllers
             return Ok(ResponseFactory.WithSuccess(response));
            
         }
-        
 
-
+        [HttpPost]
+        [Route("DownloadHistory")]
+        public IActionResult DownloadHistory(GetOrdersPaginatedRequest request)
+        {
+            try { 
+                    int totalNumberOfOrders = 0;
+                    List<OrderDTO> orders = orderService.GetOrdersFromDateToDate(request.DateStart, request.DateEnd, request.userId, out totalNumberOfOrders);
+                    byte[] pdfBytes = pdfService.GeneratePdfFromOrders(orders);
+                    if (pdfBytes != null && pdfBytes.Length > 0)
+                    {
+                        return File(pdfBytes, "application/pdf", "orders.pdf");
+                    }
+                    else
+                    {
+                        return BadRequest("Unable to generate PDF.");
+                    }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+        private  int getUserIdFromIdentity()
+        {
+            var userIdentity = this.User.Identity as ClaimsIdentity;
+            return int.Parse(userIdentity.Claims
+                .Where(c => c.Type == "User_id")
+                .First().Value);
+        }
     }
+
+    
 }

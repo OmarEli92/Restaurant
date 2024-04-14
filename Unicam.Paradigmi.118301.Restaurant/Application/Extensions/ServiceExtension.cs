@@ -19,10 +19,10 @@ namespace Application.Extensions
             services.AddScoped<IOrderService, OrderService>();   
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<PdfService>();
             var hashingOptions = new HashingOptions();
             services.AddTransient<HashingOptions>();
             configuration.GetSection("HashingSalting").Bind(hashingOptions);
-           
             services.AddScoped<IHashingService, HashingService>();
 
             //services.Configure<HashingOptions>(configuration.GetSection("HashingSalting"));
