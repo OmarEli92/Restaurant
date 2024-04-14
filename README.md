@@ -4,7 +4,6 @@ Web API for restaurant order management. This API provides functionalities for u
 A dump of the db is available inside the Infrastructure assembly of this repository, the chosen db is SQLServer.
 ## 💡 Usage 
  Every endpoint can be tested through Swagger at the URL: https://localhost:7067/swagger/index.html  
- or through a simple web UI at the URL http://localhost:5500/index.html
  
  ### Login Credentials:
 ``` json
@@ -59,18 +58,19 @@ A dump of the db is available inside the Infrastructure assembly of this reposit
   ]
 }
 ```
+### Usage example : History ->
+``` json
+{
+  "dateStart": "09-04-2024",
+  "dateEnd": "10-04-2024",
+  "orderBy": "OrderDate",
+  "pageNumber": 0,
+  "pageSize": 4
+}
+```
 ## 🚀 Features
 
 ### 1.a Customer User Creation with email and password
-- This API allows the creation of a new customer user.
-- Users can be registered by providing the following information:
-  - Email 📧
-  - First Name 📛
-  - Last Name 📛
-  - Password 🔒
-- The user's role will automatically be set as "Customer".
-
-### 1.b Customer User Creation with Google API(not yet implemented)
 - This API allows the creation of a new customer user.
 - Users can be registered by providing the following information:
   - Email 📧
